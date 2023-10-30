@@ -1,11 +1,14 @@
 import Express, {Router} from 'express';
 const router = Express.Router();
-import {alldatafromddbb} from '../controllers/crud.controllers.js';
-
-// obtener data
-// router.get('/:data', alldata)
-router.get('/:tablename', alldatafromddbb);
+import { UpdateAProduct, createAProduct, getAllData, getAllProducts } from '../controllers/crud.controllers.js';
 
 
+// router.get('/table/:table', getAllData);
+
+router.get('/', getAllProducts);
+
+router.post('/', createAProduct);
+
+router.put('/:id', UpdateAProduct);
 
 export default router;
