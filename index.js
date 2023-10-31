@@ -8,6 +8,7 @@ const port = (process.env.PORT || 3000)
 import products from './src/routes/app.routes.js'
 
 // middlewares
+app.disable('x-powered-by');
 app.use(Express.json()) // for parsing application/json
 app.use(Express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
