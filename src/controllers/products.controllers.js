@@ -10,7 +10,7 @@ export const getAllProducts = async function (req, res) {
 		);
 		const data = result.rows;
 
-		return res.status(200).json({message: 'Productos', productos: data});
+		return res.status(200).json({message: 'Todos los productos', response: data});
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
@@ -34,7 +34,7 @@ export const getProductById = async function (req, res) {
 
 		const data = result.rows;
 
-		return res.status(200).json({ producto: data });
+		return res.status(200).json({ response: data });
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
@@ -57,7 +57,7 @@ export const createAProduct = async function (req, res) {
 	if (!price) validation += ` price`;
 
 	if (!name || !description || !price) {
-		return res.status(400).send({ message: "Data missing", data: validation });
+		return res.status(400).send({ message: "Data missing", response: validation });
 	}
 
 	// Create the product in DB
@@ -71,7 +71,7 @@ export const createAProduct = async function (req, res) {
 
 		return res
 			.status(200)
-			.json({message: 'Nuevo Producto Creado', name: newProduct});
+			.json({message: 'Nuevo Producto Creado', response: newProduct});
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
@@ -113,7 +113,7 @@ export const updateAProductById = async function (req, res) {
 		const data = await client.query(query, values);
 		const updatedProduct = data.rows;
 
-		res.status(200).send({message: 'product updated successfully!', newData: updatedProduct});
+		res.status(200).send({message: 'product updated successfully!', response: updatedProduct});
 	} catch (err) {
 		return res.status(500).send('An error occurred while updating the product');
 	} finally {

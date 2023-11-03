@@ -18,6 +18,6 @@ router.post('/', createAProduct);
 
 router.put('/:id', updateAProductById);
 
-router.put('/:id', deleteAProductById);
+router.delete('/:id', deleteAProductById);
 
 export default router;

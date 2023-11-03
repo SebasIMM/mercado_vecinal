@@ -13,11 +13,11 @@ const pool = new Pool({
 pool
 	.connect()
 	.then(() => {
-		console.log('Conexión exitosa');
+		console.log('Successful connection');
 	})
 	.catch((err) => {
-		console.error('Error en la conexión:', err);
+		console.error('Connection error:', err);
 	});
 
-    
+
 export default pool;
