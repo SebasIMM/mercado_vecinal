@@ -9,8 +9,8 @@ export const getAllProducts = async function (req, res) {
 			'SELECT * FROM products ORDER BY name'
 		);
 		const data = result.rows;
-
-		return res.status(200).json({message: 'Todos los productos', response: data});
+		
+		return res.status(200).json({ status: 'success', data: data }); //? este formato se debe aplicar a toda respuesta
 	} catch (error) {
 		return res.status(500).send({
 			error: true,

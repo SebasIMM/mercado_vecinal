@@ -1,4 +1,3 @@
-import { getAllProducts } from "./fetch.products.js";
+import { getAllProducts } from "./products.fetch.js";
 
-// obtener los productos y mostrarlos
-document.getElementById('butonn').addEventListener('click', getAllProducts)
+window.addEventListener('load', getAllProducts);
