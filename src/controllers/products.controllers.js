@@ -1,16 +1,13 @@
 import pool from '../config/db.config.js';
 
-
 export const getAllProducts = async function (req, res) {
-	const client = await pool.connect();
-
 	try {
-		const result = await client.query(
-			'SELECT * FROM products ORDER BY name'
-		);
+		const client = await pool.connect();
+
+		const result = await client.query('SELECT * FROM products ORDER BY name');
 		const data = result.rows;
-		
-		return res.status(200).json({ status: 'success', data: data }); //? este formato se debe aplicar a toda respuesta
+
+		return res.status(200).json({ status: 'success', data: data });
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
@@ -23,55 +20,54 @@ export const getAllProducts = async function (req, res) {
 };
 
 export const getProductById = async function (req, res) {
-	const id = req.params.id;
-	const client = await pool.connect();
-
 	try {
+		const id = req.params.id;
+		const client = await pool.connect();
+
 		const query = 'SELECT * FROM products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
-		if (!result.rowCount) return res.status(404).send({ message: `That's not a valid ID.`});
+		if (!result.rowCount)
+			return res.status(404).send({message: `That's not a valid ID.`});
 
 		const data = result.rows;
 
-		return res.status(200).json({ response: data });
+		return res.status(200).json({status: 'success', data: data});
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
 			mensaje: `An error occurred while executing the query.
-			${error}`
-		})
+			${error}`,
+		});
 	} finally {
-		client.release()
-	}	
-}
+		client.release();
+	}
+};
 
 export const createAProduct = async function (req, res) {
-	const { name, description, price } = req.body;
-	const client = await pool.connect();
-
-	// Validate that the information is provided in the request body.
-	let validation = "The following data is missing.";
-	if (!name) validation += ` name`;
-	if (!description) validation += ` description`;
-	if (!price) validation += ` price`;
-
-	if (!name || !description || !price) {
-		return res.status(400).send({ message: "Data missing", response: validation });
-	}
-
-	// Create the product in DB
 	try {
+		const client = await pool.connect();
+		const {name, description, price} = req.body;
+
+		// Validate if the information is provided in request body.
+		let validation = 'The following data is missing.';
+		if (!name) validation += ` name`;
+		if (!description) validation += ` description`;
+		if (!price) validation += ` price`;
+
+		if (!name || !description || !price) {
+			return res.status(400).send({message: 'Data missing', response: validation});
+		}
+
+		// Create the product in DB
 		const query =
 			'INSERT INTO products (name,description,price,available) VALUES ($1,$2,$3,$4) RETURNING *';
 		const values = [name, description, price, true];
 
-		const data = await client.query(query, values);
-		const newProduct = data.rows;
+		const result = await client.query(query, values);
+		const data = result.rows;
 
-		return res
-			.status(200)
-			.json({message: 'Nuevo Producto Creado', response: newProduct});
+		return res.status(201).json({status: 'success', data: data});
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
@@ -89,15 +85,14 @@ export const updateAProductById = async function (req, res) {
 	const description = req.body.description || null;
 	const price = parseFloat(req.body.price) || 0;
 
-	const client = await pool.connect();
-
 	// Validate if the ID exists in DB
 	try {
+		const client = await pool.connect();
+
 		const query = 'SELECT id_product FROM products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
 		if (!result.rowCount) return res.status(400).send(`That's not a valid ID`);
-
 	} catch (err) {
 		return res.status(500).send('An error occurred while checking for existing ID');
 	}
@@ -105,28 +100,28 @@ export const updateAProductById = async function (req, res) {
 	// Update the product by its ID
 	try {
 		let values = [];
-		values.push(name, description, price, id)
+		values.push(name, description, price, id);
 
 		const query = `UPDATE products SET name = COALESCE($1, name), description = COALESCE($2, description
 			), price = COALESCE($3, price) WHERE id_product = $4 RETURNING *`;
-			
-		const data = await client.query(query, values);
-		const updatedProduct = data.rows;
 
-		res.status(200).send({message: 'product updated successfully!', response: updatedProduct});
+		const result = await client.query(query, values);
+		const data = result.rows;
+
+		res.status(204).send({status: 'success', data: data});
 	} catch (err) {
 		return res.status(500).send('An error occurred while updating the product');
 	} finally {
 		client.release();
 	}
-}
+};
 
 export const deleteAProductById = async function (req, res) {
-	let id = req.params.id;
-	const client = await pool.connect();
-	
 	// Validate if the ID exists in DB
 	try {
+		let id = req.params.id;
+		const client = await pool.connect();
+
 		const query = 'SELECT id_product FROM products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
@@ -140,10 +135,10 @@ export const deleteAProductById = async function (req, res) {
 		const query = 'DELETE FROM products WHERE id_product = $1';
 		await client.query(query, [id]);
 
-		res.status(200).send({ message: 'The product has been deleted.' });
+		res.status(200).send({message: 'The product has been deleted.'});
 	} catch (err) {
 		return res.status(500).send('An error occurred while deleting the product');
 	} finally {
 		client.release();
 	}
-}
+};

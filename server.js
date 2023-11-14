@@ -1,9 +1,10 @@
 import express from 'express';
 import expressLayouts from'express-ejs-layouts';
 import 'dotenv/config'
+// todo añadir path para corregir las rutas
 
 const app = express()
-const port = (process.env.PORT || 3000)
+const port = process.env.PORT || 3000
 
 // static routes
 app.use(express.static('./public'));
@@ -12,7 +13,7 @@ app.use(express.static('./node_modules/axios/dist'));
 
 // routes
 import indexRouter from './src/routes/index.routes.js'
-import productsRouter from './src/routes/app.routes.js'
+import productsRouter from './src/routes/products.routes.js'
 
 // middlewares
 app.disable('x-powered-by');

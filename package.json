@@ -17,7 +17,8 @@
     "ejs": "3.1.9",
     "express": "4.18.2",
     "express-ejs-layouts": "2.5.1",
-    "pg": "8.11.3"
+    "pg": "8.11.3",
+    "zod": "3.22.4"
   },
   "devDependencies": {
     "dotenv": "^16.3.1",
