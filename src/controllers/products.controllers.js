@@ -1,13 +1,13 @@
 import pool from '../config/db.config.js';
 
 export const getAllProducts = async function (req, res) {
-	try {
-		const client = await pool.connect();
+	const client = await pool.connect();
 
-		const result = await client.query('SELECT * FROM products ORDER BY name');
+	try {
+		const result = await client.query('SELECT * FROM mv_products ORDER BY name');
 		const data = result.rows;
 
-		return res.status(200).json({ status: 'success', data: data });
+		return res.status(200).json({status: 'success', data: data});
 	} catch (error) {
 		return res.status(500).send({
 			error: true,
@@ -20,11 +20,12 @@ export const getAllProducts = async function (req, res) {
 };
 
 export const getProductById = async function (req, res) {
-	try {
-		const id = req.params.id;
-		const client = await pool.connect();
+	const client = await pool.connect();
+	const id = req.params.id;
 
-		const query = 'SELECT * FROM products WHERE id_product = $1';
+	try {
+
+		const query = 'SELECT * FROM mv_products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
 		if (!result.rowCount)
@@ -45,9 +46,10 @@ export const getProductById = async function (req, res) {
 };
 
 export const createAProduct = async function (req, res) {
+	const client = await pool.connect();
+	const {name, description, price} = req.body;
+
 	try {
-		const client = await pool.connect();
-		const {name, description, price} = req.body;
 
 		// Validate if the information is provided in request body.
 		let validation = 'The following data is missing.';
@@ -61,7 +63,7 @@ export const createAProduct = async function (req, res) {
 
 		// Create the product in DB
 		const query =
-			'INSERT INTO products (name,description,price,available) VALUES ($1,$2,$3,$4) RETURNING *';
+			'INSERT INTO mv_products (name,description,price,available) VALUES ($1,$2,$3,$4) RETURNING *';
 		const values = [name, description, price, true];
 
 		const result = await client.query(query, values);
@@ -83,13 +85,15 @@ export const updateAProductById = async function (req, res) {
 	const id = req.params.id;
 	const name = req.body.name || null;
 	const description = req.body.description || null;
-	const price = parseFloat(req.body.price) || 0;
+	const price = req.body.price || 0;
+	// const price = parseFloat(req.body.price) || 0;
+
+	const client = await pool.connect();
 
 	// Validate if the ID exists in DB
 	try {
-		const client = await pool.connect();
 
-		const query = 'SELECT id_product FROM products WHERE id_product = $1';
+		const query = 'SELECT id_product FROM mv_products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
 		if (!result.rowCount) return res.status(400).send(`That's not a valid ID`);
@@ -102,13 +106,13 @@ export const updateAProductById = async function (req, res) {
 		let values = [];
 		values.push(name, description, price, id);
 
-		const query = `UPDATE products SET name = COALESCE($1, name), description = COALESCE($2, description
+		const query = `UPDATE mv_products SET name = COALESCE($1, name), description = COALESCE($2, description
 			), price = COALESCE($3, price) WHERE id_product = $4 RETURNING *`;
 
 		const result = await client.query(query, values);
 		const data = result.rows;
 
-		res.status(204).send({status: 'success', data: data});
+		res.status(200).send({status: 'success', data: data});
 	} catch (err) {
 		return res.status(500).send('An error occurred while updating the product');
 	} finally {
@@ -117,12 +121,13 @@ export const updateAProductById = async function (req, res) {
 };
 
 export const deleteAProductById = async function (req, res) {
+	const client = await pool.connect();
+
 	// Validate if the ID exists in DB
 	try {
 		let id = req.params.id;
-		const client = await pool.connect();
 
-		const query = 'SELECT id_product FROM products WHERE id_product = $1';
+		const query = 'SELECT id_product FROM mv_products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
 		if (!result.rowCount) return res.status(400).send(`That's not a valid ID.`);
@@ -142,3 +147,7 @@ export const deleteAProductById = async function (req, res) {
 		client.release();
 	}
 };
+
+// todo revisar si el formato es correcto
+// * se requiere exportar todo en un solo nombre
+// export default products;

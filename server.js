@@ -12,7 +12,7 @@ app.use(express.static('./node_modules/bootstrap/dist'));
 app.use(express.static('./node_modules/axios/dist'));
 
 // routes
-import indexRouter from './src/routes/index.routes.js'
+import indexRouter from './src/routes/index.routes.js' // web page routes
 import productsRouter from './src/routes/products.routes.js'
 
 // middlewares

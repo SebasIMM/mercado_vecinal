@@ -9,7 +9,7 @@ export const productSchema = z.object({
 	description: z.string({
         invalid_type_error: 'Description must be a string',
         required_error: 'Description is required',
-    }).trim().toLowerCase().,
+    }).trim().toLowerCase(),
     price: z.number({
         required_error: "Price is required",
         invalid_type_error: "Price must be a number"

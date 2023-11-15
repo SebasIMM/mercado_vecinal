@@ -1,0 +1,31 @@
+### rescuperar todos los productos
+GET HTTP://localhost:3100/api/products/
+
+### recuperar 1 producto por su ID
+GET http://localhost:3100/api/products/1
+
+### crear un nuevo producto
+POST http://localhost:3100/api/products
+content-type: application/json
+
+{
+    "name": "banana",
+    "description": "descripcion del producto",
+    "price": 10200,
+    "available": true
+}
+
+### actualizar un producto
+PUT http://localhost:3100/api/products/2
+Content-Type: application/json
+
+{
+    "name": "producto",
+    "description": "jajajajaja",
+    "price": 1000
+}
+
+### eliminar un producto
+DELETE http://localhost:3100/api/products/25
+
+

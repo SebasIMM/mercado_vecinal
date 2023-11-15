@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto'
 // console.log(myUUID);
 
 
+// ? aqui hay que instansiar una clase
 export const getProducts = async (params) => {
 	try {
 		const client = await pool.connect();
