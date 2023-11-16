@@ -1,4 +1,6 @@
 import pool from '../config/db.config.js';
+import {randomUUID} from 'node:crypto';
+import {validateProduct, validatePartialProduct} from '../schemas/products.schemas..js';
 
 export const getAllProducts = async function (req, res) {
 	const client = await pool.connect();
@@ -24,7 +26,6 @@ export const getProductById = async function (req, res) {
 	const id = req.params.id;
 
 	try {
-
 		const query = 'SELECT * FROM mv_products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 
@@ -47,28 +48,27 @@ export const getProductById = async function (req, res) {
 
 export const createAProduct = async function (req, res) {
 	const client = await pool.connect();
-	const {name, description, price} = req.body;
+	const result = validateProduct(req.body);
+	const {name, description, price} = result.data;
+
+	if (result.error) {
+		return res.status(400).json({
+			error: JSON.parse(result.error.message),
+		});
+	}
 
 	try {
-
-		// Validate if the information is provided in request body.
-		let validation = 'The following data is missing.';
-		if (!name) validation += ` name`;
-		if (!description) validation += ` description`;
-		if (!price) validation += ` price`;
-
-		if (!name || !description || !price) {
-			return res.status(400).send({message: 'Data missing', response: validation});
-		}
+		// create an ID
+		const newID = randomUUID();
 
 		// Create the product in DB
 		const query =
-			'INSERT INTO mv_products (name,description,price,available) VALUES ($1,$2,$3,$4) RETURNING *';
-		const values = [name, description, price, true];
+			'INSERT INTO mv_products (id_product, name, description, price) VALUES ($1, $2, $3, $4) RETURNING *';
+		const values = [newID, name, description, price];
 
 		const result = await client.query(query, values);
 		const data = result.rows;
-
+		console.log(result);
 		return res.status(201).json({status: 'success', data: data});
 	} catch (error) {
 		return res.status(500).send({
@@ -82,17 +82,16 @@ export const createAProduct = async function (req, res) {
 };
 
 export const updateAProductById = async function (req, res) {
-	const id = req.params.id;
-	const name = req.body.name || null;
-	const description = req.body.description || null;
-	const price = req.body.price || 0;
-	// const price = parseFloat(req.body.price) || 0;
+	const {id} = req.params;
+	const result = validatePartialProduct(req.body);
+	const {name, description, price} = result.data;
 
+	if (result.error) return res.status(400).json({error: JSON.parse(result.error.message)});
+	
 	const client = await pool.connect();
 
 	// Validate if the ID exists in DB
 	try {
-
 		const query = 'SELECT id_product FROM mv_products WHERE id_product = $1';
 		const result = await client.query(query, [id]);
 

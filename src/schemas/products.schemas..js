@@ -1,6 +1,6 @@
 import {z} from 'zod';
 
-export const productSchema = z.object({
+const productSchema = z.object({
     name: z.string({
         invalid_type_error: 'Product name must be a string',
         required_error: 'Product name is required',
@@ -15,3 +15,11 @@ export const productSchema = z.object({
         invalid_type_error: "Price must be a number"
     }).nonnegative()
 });
+
+export const validateProduct = (product) => {
+        return productSchema.safeParse(product);
+};
+    
+export const validatePartialProduct = (product) => {
+    return productSchema.partial().safeParse(product)
+}
