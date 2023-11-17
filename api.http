@@ -2,31 +2,33 @@
 GET HTTP://localhost:3100/api/products
 
 ### recuperar 1 producto por su ID
-GET http://localhost:3100/api/products/1
+GET http://localhost:3100/api/products/a5f4157c-1cc9-4a86-bbd1-dcaf551dac10
 
-# hay ue crear el tipo antes de usar esta ruta
+# hay que crear el tipo antes de usar esta ruta
 ### recuperar los productos por tipo
-GET http://localhost:3100/api/products?type=
+GET http://localhost:3100/api/products?type=frutilla
 
 ### crear un nuevo producto
 POST http://localhost:3100/api/products
 content-type: application/json
 
 {
-    "name": "platano",
-    "description": "descripcion del producto",
-    "price": 2
+    "name": "frutilla",
+    "description": "segunda opcion",
+    "price": 2200
 }
 
 ### actualizar un producto por su ID
-PUT http://localhost:3100/api/products/26
+PUT http://localhost:3100/api/products/3
 Content-Type: application/json
 
 {
-    "name": "sandia"
+    "name": "sandia",
+    "description": "siempre jugosa",
+    "hola": "select * from mv_products"
 }
 
 ### eliminar un producto
-DELETE http://localhost:3100/api/products/25
+DELETE http://localhost:3100/api/products/3
 
 

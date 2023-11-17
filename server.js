@@ -43,7 +43,7 @@ app.set('views', './src/views/'); // views route from this point
 app.use('/', indexRouter)
 app.use('/api/products', productsRouter)
 
-// ruta de error // todo falta mejorarla
+// ruta de error // todo falta mejorarla, enviarla al final de indexRouter
 app.use((req, res) => {
     res.status(404).send('<h1>Esta pagina no existe</h1>')
 })
