@@ -43,7 +43,7 @@ export class ProductModel {
 		}
 	}
 
-	static async createProduct({input}) {
+	static async create({input}) {
 		const client = await pool.connect();
 
 		try {
@@ -64,7 +64,7 @@ export class ProductModel {
 		}
 	}
 
-	static async updateProduct({id, input}) {
+	static async updateById({id, input}) {
 		const client = await pool.connect();
 
 		// Validate if the ID exists in DB
@@ -93,7 +93,7 @@ export class ProductModel {
 		}
 	}
 
-	static async deleteProduct({id}) {
+	static async deleteById({id}) {
 		const client = await pool.connect();
 		// Validate if the ID exists in DB
 		try {
