@@ -21,24 +21,6 @@ app.use(express.static(join(__dirname, 'public')));
 app.use(express.static(join(__dirname, 'node_modules', 'bootstrap', 'dist')));
 app.use(express.static(join(__dirname, 'node_modules', 'axios', 'dist')));
 
-=======
-import expressLayouts from'express-ejs-layouts';
-// todo: añadir path para corregir las rutas
-
-// routes
-import indexRouter from './src/routes/index.routes.js' // webpage routes
-import productsRouter from './src/routes/products.routes.js'
-import { corsMiddleware } from './src/middlewares/cors.js';
-
-const app = express()
-const port = process.env.PORT || 3000
-
-// static routes
-app.use(express.static('./public'));
-app.use(express.static('./node_modules/bootstrap/dist'));
-app.use(express.static('./node_modules/axios/dist'));
-
->>>>>>> ed23b59bbcbeb7c9281fca126dbdccd07143b42f
 // middlewares
 app.disable('x-powered-by');
 app.use(express.json());
