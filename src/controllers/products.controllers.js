@@ -6,8 +6,8 @@ export class productController {
 		try {
 			const {type} = req.query;
 			const result = await ProductModel.getAll({type});
-
-			return res.status(200).json({result: result});
+			
+			return res.status(200).json({result: result.data});
 		} catch (error) {
 			return res.status(500).json({
 				success: false,

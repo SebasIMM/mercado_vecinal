@@ -34,7 +34,7 @@ app.set('layout', join(__dirname, 'src', 'views', 'layouts', 'main')); // layout
 app.set('views', join(__dirname, 'src', 'views')); // all views route
 
 // endpoints
-app.use('/', indexRouter);
 app.use('/api/products', productsRouter);
+app.use('/', indexRouter);
 
 app.listen(port, () => console.log(`Server running on port ${port}`));

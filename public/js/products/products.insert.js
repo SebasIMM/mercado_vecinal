@@ -1,10 +1,9 @@
 export const insertProducts = async (data) => {
-    let html = '';
+	let html = '';
 
+	data.forEach((element) => {
 
-    data.forEach(element => {
-        console.log(element);
-        html += `
+		html += `
     <div class="col-lg-3 col-md-6 col-sm-12">
         <div
             class="card shadow border border-warning m-1"
@@ -23,6 +22,6 @@ export const insertProducts = async (data) => {
     </div>
 `;
 
-        document.getElementById('box-products').insertAdjacentHTML("beforeend", html);
-    });
-}
+		document.getElementById('box-products').insertAdjacentHTML('beforeend', html);
+	});
+};

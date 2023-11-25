@@ -15,7 +15,7 @@ export class ProductModel {
 			}
 
 			const result = await client.query(query, type ? [type] : []);
-
+			
 			return {success: true, data: result.rows};
 		} catch (err) {
 			throw new Error(`Error updating product: ${err.message}`);
