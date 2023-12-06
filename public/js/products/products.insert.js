@@ -1,6 +1,6 @@
 export const insertProducts = async (data) => {
 	let html = '';
-
+    
 	data.forEach((element) => {
 
 		html += `
