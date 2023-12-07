@@ -3,8 +3,15 @@
 <div class="container d-flex flex-wrap" id="box-products"></div>
 
 
-<!-- <h5> <%= name %></h5> -->
-
+<ul>
+	<% products.forEach(function(products) { %>
+		<li>
+			<strong>Nombre:</strong> <%= products.name %><br>
+			<strong>Descripción:</strong> <%= products.description %><br>
+			<strong>Precio:</strong> <%= products.price %><br>
+		</li>
+	<% }); %>
+</ul>
 
 
 <!-- script -->

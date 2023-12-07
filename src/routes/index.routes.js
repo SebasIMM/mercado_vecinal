@@ -9,14 +9,10 @@ router.get("/", function (req, res) {
 
 // products page
 router.get("/products", async function (req, res) {
-    // let data = await axios('/api/products');
-    let result = await axios({
-        method: 'get',
-        url: 'http://localhost:3100/api/products'
-    })
+    let result = await axios.get('http://localhost:3100/api/products')
     let data = result.data.result
-    console.log(data);
-    res.render('./pages/products', {title:'Productos', data: data})
+
+    res.render('./pages/products', {title:'Productos', products: data})
 })
 
 // contact page
