@@ -12,17 +12,17 @@
   "author": "Sebastián Medel",
   "license": "ISC",
   "dependencies": {
-    "axios": "1.6.0",
-    "bootstrap": "5.3.2",
+    "axios": "1.7.9",
+    "bootstrap": "5.3.3",
     "cors": "2.8.5",
-    "ejs": "3.1.9",
-    "express": "4.18.2",
+    "ejs": "3.1.10",
+    "express": "4.21.2",
     "express-ejs-layouts": "2.5.1",
-    "pg": "8.11.3",
-    "zod": "3.22.4"
+    "pg": "8.13.1",
+    "zod": "3.24.1"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1",
-    "nodemon": "^3.0.1"
+    "dotenv": "^16.4.7",
+    "nodemon": "^3.1.9"
   }
 }
