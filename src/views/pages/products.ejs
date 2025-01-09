@@ -1,17 +1,22 @@
 <%- include ('../partials/nav-outside') %>
 
-<div class="container d-flex flex-wrap" id="box-products"></div>
+<div class="grid-container">
+	<div class="grid-col-1">
+		<p>grid-1</p>
+	</div>
 
+	<div class="grid-col-2 d-flex flex-row flex-wrap justify-content-start">
+		<% products.forEach(function(products) { %>
+		<div class="card card-products mx-3 my-1">
+			<h5>Nombre: <%= products.name %></h5>
+			<p>Descripción: <%= products.description %></p>
+			<span>Precio: <%= products.price %></span>
+		</div>
+		<% }); %>
+	</div>
 
-<ul>
-	<% products.forEach(function(products) { %>
-		<li>
-			<strong>Nombre:</strong> <%= products.name %><br>
-			<strong>Descripción:</strong> <%= products.description %><br>
-			<strong>Precio:</strong> <%= products.price %><br>
-		</li>
-	<% }); %>
-</ul>
+</div>
+
 
 
 <!-- script -->

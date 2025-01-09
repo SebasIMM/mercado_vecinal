@@ -1,9 +1,29 @@
 /* temporal, hasta aprender scss con bootstrap */
-#vh{
-    height: 90vh;
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
-a{
-    text-decoration: none;
+.grid-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 5px;
+    margin: 25px 1% 0;
+}
+
+.grid-container .grid-col-1 {
+    border-radius: 5px;
+    border: #a0a0a0 solid 1px;
+}
+
+.grid-container .grid-col-2 {
+    /* background: #888; */
+    border: #a0a0a0 solid 1px;
+    border-radius: 5px;
+}
+
+button a{
     color: white;
+    text-decoration: none;
 }
